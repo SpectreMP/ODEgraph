@@ -8,6 +8,25 @@
 </head>
 <body>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div class="values" style="display: grid; grid-template-columns: 100px 200px; row-gap: 10px; width: 200px; ">
+        <label for="k">k</label>
+        <input type="number" id="k" name="k" min="0" max="100" step="0.05" value="5" onchange="main()">
+        
+        <label for="T1">T1</label>
+        <input type="number" id="T1" name="T1" min="0" max="100" step="0.05" value="0.4" onchange="main()">
+        
+        <label for="T2">T2</label>
+        <input type="text" id="T2" name="T2" value="0.1" onchange="main()">
+        
+        <label for="L">L</label>
+        <input type="number" id="L" name="L" min="0" max="100" step="1" value="6" onchange="main()">
+        
+        <label for="dt">dt</label>
+        <input type="number" id="dt" name="dt" min="0.0001" max="1" step="0.001" value="0.01" onchange="main()">
+
+        <label for="koc">koc</label>
+        <input type="number" id="koc" name="koc" min="-10" max="10" step="0.01" value="0.1" onchange="main()">
+    </div>
     <div id="curve_chart2" style="width: 1280px; height: 1024px;"></div>
 
     <script>
@@ -28,21 +47,21 @@
                 k3[i] = dt * (b[n-i] * g - a[n-i] * (y+k2[i]/2) + start[i]);
                 k4[i] = dt * (b[n-i] * g - a[n-i] * (y+k3[i]) + start[i]);
                 
-                result.push(start[i-1]+(1/6)*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]))
+                result.push(start[i-1]+(1/6)*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]));
             }
             
             return result;
         }
 
         function main(){
-            t=0;
-            L=6;
-            dt=0.01;
-            k = 5;
-            T1 = 0.4;
-            T2 = 0.1;
+            var t=0;
+            var L = Number(document.getElementById("L").value);
+            var dt= Number(document.getElementById("dt").value);
+            var k = Number(document.getElementById("k").value);
+            var T1 = Number(document.getElementById("T1").value);
+            var T2 = eval(document.getElementById("T2").value);
 
-            koc = 1;
+            var koc = Number(document.getElementById("koc").value);
 
             s = [0,0];
             ds = 0;
@@ -68,7 +87,7 @@
             
             var data = google.visualization.arrayToDataTable(A);
             var options = {
-                title: 'Моделирование заданного типового звена',
+                // title: 'Моделирование заданного типового звена',
                 curveType: 'function',
                 hAxis: {
                 title: 't'
