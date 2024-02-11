@@ -1,106 +1,35 @@
-<!-- TODO: restructure all this mess -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Runge-Kutta Function Test</title>
+    <title>ODE Solver</title>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <div class="values" style="display: grid; grid-template-columns: 100px 200px; row-gap: 10px; width: 200px; ">
+    <div class="values">
         <label for="k">k</label>
-        <input type="number" id="k" name="k" min="0" max="100" step="0.05" value="5" onchange="main()">
-        
-        <label for="T1">T1</label>
-        <input type="number" id="T1" name="T1" min="0" max="100" step="0.05" value="0.4" onchange="main()">
-        
-        <label for="T2">T2</label>
-        <input type="text" id="T2" name="T2" value="0.1" onchange="main()">
-        
+        <input type="number" id="k" name="k" step="0.05" value="5" onchange="main()">
+
         <label for="L">L</label>
         <input type="number" id="L" name="L" min="0" max="100" step="1" value="6" onchange="main()">
         
         <label for="dt">dt</label>
         <input type="number" id="dt" name="dt" min="0.0001" max="1" step="0.001" value="0.01" onchange="main()">
-
-        <label for="koc">koc</label>
-        <input type="number" id="koc" name="koc" min="-10" max="10" step="0.01" value="0.1" onchange="main()">
+        
+        <label for="variables">Additional variables:</label>
+        <textarea name="variables" id="variables" cols="30" rows="4" onchange="main()"></textarea>
     </div>
+    <div class="params">
+        
+    </div>
+    
     <div id="curve_chart2" style="width: 1280px; height: 1024px;"></div>
-
     <script>
         google.charts.load('current',{'packages':['corechart']});
         google.charts.setOnLoadCallback(main);
-       
-        function calculateNextStep(start, a, b, g, dt){
-            n =  start.length;
-            start.push(0);
-
-            result = [];
-            y = start[0] + b[n] * g;
-
-            k1 = []; k2 = []; k3 = []; k4 = [];
-            for (let i = 1; i<=n; i++){
-                k1[i] = dt * (b[n-i] * g - a[n-i] * y + start[i]);
-                k2[i] = dt * (b[n-i] * g - a[n-i] * (y+k1[i]/2) + start[i]);
-                k3[i] = dt * (b[n-i] * g - a[n-i] * (y+k2[i]/2) + start[i]);
-                k4[i] = dt * (b[n-i] * g - a[n-i] * (y+k3[i]) + start[i]);
-                
-                result.push(start[i-1]+(1/6)*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]));
-            }
-            
-            return result;
-        }
-
-        function main(){
-            var t=0;
-            var L = Number(document.getElementById("L").value);
-            var dt= Number(document.getElementById("dt").value);
-            var k = Number(document.getElementById("k").value);
-            var T1 = Number(document.getElementById("T1").value);
-            var T2 = eval(document.getElementById("T2").value);
-
-            var koc = Number(document.getElementById("koc").value);
-
-            s = [0,0];
-            ds = 0;
-            
-            //a_n * d^n y/dt^n + a_n-1 * d^n-1 y/dt^n-1 + ... + a_1 * dy/dt + a_0 * y = b_n * d^n g/dt^n + ... + b_0 * g
-            a = [1/(T2*T2), T1/(T2*T2), 1];
-            b = [k/(T2*T2), 0, 0];
-
-            var A = new Array(['t', 'Переходная функция', 'Производная?']);
-
-            var i = 1;
-            while (t < L) {
-                //TODO: rename this variables to be more descreptive
-                prevs = s[0];
-
-                s = calculateNextStep(s, a, b, 1, dt);
-                ds = s[0]-prevs;
-
-                A[i] = [t, s[0], ds/dt];
-                t += dt;
-                i++;
-            }
-            
-            var data = google.visualization.arrayToDataTable(A);
-            var options = {
-                // title: 'Моделирование заданного типового звена',
-                curveType: 'function',
-                hAxis: {
-                title: 't'
-            },
-            vAxis: {
-                title: 'h(t)'
-            },
-            legend: { 
-                position: 'bottom' }
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart2'));
-            chart.draw(data, options);
-        }
     </script>
 </body>
 </html>
