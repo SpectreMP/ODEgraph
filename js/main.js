@@ -31,6 +31,17 @@ function main(){
     a = [1/(T2*T2), T1/(T2*T2), 1];
     b = [k/(T2*T2), 0, 0];
 
+    inputs = document.querySelectorAll(".input-item>input")
+    outputs = document.querySelectorAll(".output-item>input")
+
+    for (let i = 0; i<outputs.length; i++){
+        a[i] = outputs[i].value
+    }
+
+    for (let i = 0; i<inputs.length; i++){
+        b[i] = inputs[i].value
+    }
+
     var A = new Array(['t', 'Переходная функция', 'Производная']);
 
     var i = 1;

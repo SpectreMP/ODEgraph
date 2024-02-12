@@ -1,6 +1,38 @@
 .values {
     display: grid;
 }
-input {
+.values input{
     margin-bottom: 10px;
+}
+.params {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+.equal{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.output{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+.input{
+    display: flex;
+    flex-direction: row;
+}
+
+.params-item{
+    margin: 0 10px;
+}
+
+.buttons-output{
+    margin-right: 10px;
+}
+.buttons-input{
+    margin-left: 10px;
 }

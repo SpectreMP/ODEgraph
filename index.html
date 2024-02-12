@@ -10,20 +10,56 @@
 </head>
 <body>
     <div class="values">
-        <label for="k">k</label>
+        <label class="main-params" for="k">k</label>
         <input type="number" id="k" name="k" step="0.05" value="5" onchange="main()">
 
-        <label for="L">L</label>
+        <label class="main-params" for="L">L</label>
         <input type="number" id="L" name="L" min="0" max="100" step="1" value="6" onchange="main()">
         
-        <label for="dt">dt</label>
+        <label class="main-params" for="dt">dt</label>
         <input type="number" id="dt" name="dt" min="0.0001" max="1" step="0.001" value="0.01" onchange="main()">
         
         <label for="variables">Additional variables:</label>
         <textarea name="variables" id="variables" cols="30" rows="4" onchange="main()"></textarea>
     </div>
     <div class="params">
-        
+        <div class="buttons-output">
+            <div class="plus">+</div>
+            <div class="minus">-</div>
+        </div>
+        <div class="output">
+            <label class="params-item output-item">
+                dy/dt
+                <input type="text" size="5" onchange="main()">
+            </label>
+            <label class="params-item output-item">
+                dy/dt
+                <input type="text" size="5" onchange="main()">
+            </label>
+            <label class="params-item output-item">
+                y
+                <input type="text" size="5" onchange="main()">
+            </label>
+        </div>
+        <div class="equal"> = </div> 
+        <div class="input">
+            <label class="params-item input-item">
+                dg/dt
+                <input type="text" size="5" onchange="main()">
+            </label>
+            <label class="params-item input-item">
+                dg/dt
+                <input type="text" size="5" onchange="main()">
+            </label>
+            <label class="params-item input-item">
+                g
+                <input type="text" size="5" onchange="main()">
+            </label>
+        </div>
+        <div class="buttons-input">
+            <div class="plus">+</div>
+            <div class="minus">-</div>
+        </div>
     </div>
     
     <div id="curve_chart2" style="width: 1280px; height: 1024px;"></div>
