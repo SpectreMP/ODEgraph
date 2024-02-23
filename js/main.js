@@ -8,9 +8,9 @@ function calculateNextStep(start, a, b, g, dt){
     k1 = []; k2 = []; k3 = []; k4 = [];
     for (let i = 1; i<=n; i++){
         k1[i] = dt * (b[n-i] * g - a[n-i] * y + start[i]);
-        k2[i] = dt * (b[n-i] * g - a[n-i] * (y+k1[i]/2) + start[i]);
-        k3[i] = dt * (b[n-i] * g - a[n-i] * (y+k2[i]/2) + start[i]);
-        k4[i] = dt * (b[n-i] * g - a[n-i] * (y+k3[i]) + start[i]);
+        k2[i] = dt * (b[n-i] * g - a[n-i] * (y + k1[i] / 2) + start[i]);
+        k3[i] = dt * (b[n-i] * g - a[n-i] * (y + k2[i] / 2) + start[i]);
+        k4[i] = dt * (b[n-i] * g - a[n-i] * (y + k3[i]) + start[i]);
         
         result.push(start[i-1]+(1/6)*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]))
     }
@@ -28,18 +28,20 @@ function main(){
     y = [0,0];
     
     //a_n * d^n y/dt^n + a_n-1 * d^n-1 y/dt^n-1 + ... + a_1 * dy/dt + a_0 * y = b_n * d^n g/dt^n + ... + b_0 * g
-    a = [1/(T2*T2), T1/(T2*T2), 1];
-    b = [k/(T2*T2), 0, 0];
+    //a = [1/(T2*T2), T1/(T2*T2), 1];
+    //b = [k/(T2*T2), 0, 0];
+    a=[];
+    b=[];
 
     inputs = document.querySelectorAll(".input-item>input")
     outputs = document.querySelectorAll(".output-item>input")
 
     for (let i = 0; i<outputs.length; i++){
-        a[i] = outputs[i].value
+        a[i] = eval(outputs[i].value)
     }
 
     for (let i = 0; i<inputs.length; i++){
-        b[i] = inputs[i].value
+        b[i] = eval(inputs[i].value)
     }
 
     var A = new Array(['t', 'Переходная функция', 'Производная']);
