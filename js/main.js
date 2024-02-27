@@ -31,38 +31,46 @@ function main(){
     var L = Number(document.getElementById("L").value);
     var dt= Number(document.getElementById("dt").value);
     var k = Number(document.getElementById("k").value);
+    var koc = Number(document.getElementById("koc").value);
     eval(document.getElementById("variables").value);
 
-    y = [0,0];
     
     //a_n * d^n y/dt^n + a_n-1 * d^n-1 y/dt^n-1 + ... + a_1 * dy/dt + a_0 * y = b_n * d^n g/dt^n + ... + b_0 * g
     //a = [1/(T2*T2), T1/(T2*T2), 1];
     //b = [k/(T2*T2), 0, 0];
     a=[];
     b=[];
+    correction = 0;
 
     inputs = document.querySelectorAll(".input-item>input")
     outputs = document.querySelectorAll(".output-item>input")
 
     for (let i = 0; i<outputs.length; i++){
         a[i] = eval(outputs[i].value)
+        if (i==outputs.length - 1){
+            outputs[i].value = 1;
+            outputs[i].setAttribute("disabled", true);
+        }
     }
+    y = Array(a.length - 1).fill(0);
 
     for (let i = 0; i<inputs.length; i++){
         b[i] = eval(inputs[i].value)
     }
 
-    var A = new Array(['t', 'Переходная функция', 'Производная']);
+    A = new Array(['t', 'Переходная функция', 'Производная']);
 
     var i = 1;
     while (t < L) {
         dy = y[0];
 
-        y = rungeKuttaStep(y, a, b, 1, dt);
+        y = rungeKuttaStep(y, a, b, 1-correction, dt);
         dy = y[0] - dy;
 
         A[i] = [t, y[0], dy/dt];
 
+
+        correction = (dy/dt)*koc;
         t += dt;
         i++;
     }
