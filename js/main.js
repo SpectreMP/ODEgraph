@@ -32,7 +32,9 @@ function main(){
     var dt= Number(document.getElementById("dt").value);
     var k = Number(document.getElementById("k").value);
     var koc = Number(document.getElementById("koc").value);
+    var tau = Number(document.getElementById("tau").value);
     eval(document.getElementById("variables").value);
+
 
     
     //a_n * d^n y/dt^n + a_n-1 * d^n-1 y/dt^n-1 + ... + a_1 * dy/dt + a_0 * y = b_n * d^n g/dt^n + ... + b_0 * g
@@ -40,7 +42,6 @@ function main(){
     //b = [k/(T2*T2), 0, 0];
     a=[];
     b=[];
-    correction = 0;
 
     inputs = document.querySelectorAll(".input-item>input")
     outputs = document.querySelectorAll(".output-item>input")
@@ -58,19 +59,28 @@ function main(){
         b[i] = eval(inputs[i].value)
     }
 
-    A = new Array(['t', 'Переходная функция', 'Производная']);
+    correction = 0;
+    bufferLength = Math.ceil(tau/dt);
+    latencyBuffer = Array(bufferLength).fill(0);
 
-    var i = 1;
+    A = new Array(['t', 'Переходная функция', 'Производная']);
+    A[1] = [0, 0, 0]
+    t += dt;
+
+    var i = 2;
     while (t < L) {
         dy = y[0];
 
         y = rungeKuttaStep(y, a, b, 1-correction, dt);
+
         dy = y[0] - dy;
 
-        A[i] = [t, y[0], dy/dt];
+        //correction = y[0]*koc;
+        //correction = (dy/dt)*koc;
+        latencyBuffer.push(y[0])
+        correction = latencyBuffer[i-2];
 
-
-        correction = (dy/dt)*koc;
+        A[i] = [t, y[0], correction];
         t += dt;
         i++;
     }

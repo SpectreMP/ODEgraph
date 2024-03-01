@@ -11,7 +11,7 @@
 <body>
     <div class="values">
         <label class="main-params" for="k">k</label>
-        <input type="number" id="k" name="k" step="0.05" value="7" onchange="main()">
+        <input type="number" id="k" name="k" step="0.05" value="5" onchange="main()">
 
         <label class="main-params" for="L">L</label>
         <input type="number" id="L" name="L" min="0" max="100" step="1" value="6" onchange="main()">
@@ -21,6 +21,9 @@
         
         <label class="main-params" for="koc">koc</label>
         <input type="number" id="koc" name="koc" step="0.01" value="0" onchange="main()">
+        
+        <label class="main-params" for="tau">tau</label>
+        <input type="number" id="tau" name="tau" step="0.01" value="0" onchange="main()">
         
         <label for="variables">Additional variables:</label>
         <textarea name="variables" id="variables" cols="30" rows="4" onchange="main()">T1=0.4; T2=0.1;</textarea>
