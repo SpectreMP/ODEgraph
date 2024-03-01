@@ -64,7 +64,10 @@ function main(){
 
     A = new Array(['t', 'Переходная функция', 'Производная']);
 
-    var i = 1;
+    A[1] = [0, 0, 0]
+    t += dt;
+
+    var i = 2;
     while (t < L) {
         dy = y[0];
 
