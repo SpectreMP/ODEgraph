@@ -2,9 +2,13 @@ function f(g, y, dy, a, b){
     return b*g - a*y + dy;
 }
 function rungeKuttaStep(start, a, b, g, dt){
-    n = start.length;
+    n = a.length-1;
 
     result = [];
+    while (start.length<n){
+        start.push(0);
+    }
+
     y = start[0] + b[n] * g;
 
     k1 = []; k2 = []; k3 = []; k4 = [];
@@ -65,6 +69,7 @@ function main(){
         dy = y[0];
 
         y = rungeKuttaStep(y, a, b, 1-correction, dt);
+        
         dy = y[0] - dy;
 
         A[i] = [t, y[0], dy/dt];
